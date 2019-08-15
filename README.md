@@ -40,6 +40,7 @@ $ dcync run -v
 Ok, dcync is ready for changes ...
 19-08-15 12:18:31  * /var/www/myapp/src/Controller/AppController.php
 19-08-15 12:18:31  + /var/www/myapp/src/Controller/FrontController.php
+```
 
 ### Команда init
 
