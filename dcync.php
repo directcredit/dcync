@@ -349,8 +349,6 @@ class dcync
                 $userhost = $project->config->remote->user . '@' . $project->config->remote->host;
 
                 if ($addedList || $removedList || $modifiedList) {
-                    $needPing = true;
-
                     $tasks[] = [
                         'ssh'   => $connects[$userhost][0],
                         'ftp'   => $connects[$userhost][1],
@@ -380,7 +378,7 @@ class dcync
                         echo "ok", PHP_EOL;
                     }
 
-                } elseif ($lastChange > $time - 5) {
+                } elseif ($needPing) {
                     if ($verbose) {
                         echo "* ping via echo 1", PHP_EOL;
                     }
