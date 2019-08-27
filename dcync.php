@@ -654,7 +654,11 @@ class dcync
             if (strpos($realPath, $baseDir) !== 0) {
                 throw new Exception('file ' . $realPath . ' was not in project dir');
             }
-            $relativePaths[] = substr($realPath, strlen($baseDir));
+            if (strlen($baseDir) === strlen($realPath)) {
+                $relativePaths[] = '/.';
+            } else {
+                $relativePaths[] = substr($realPath, strlen($baseDir));
+            }
         }
 
         // prepare rsync commands
@@ -668,7 +672,11 @@ class dcync
 
         $commands = [];
         foreach ($relativePaths as $relativePath) {
-            $remotePath = $userhost . ':' . dirname($localConfig->remote->path . $relativePath) . '/';
+            if ($relativePath === '.') {
+                $remotePath = $userhost . ':' . $localConfig->remote->path . $relativePath . '/';
+            } else {
+                $remotePath = $userhost . ':' . dirname($localConfig->remote->path . $relativePath) . '/';
+            }
             $commands[$relativePath] = escapeshellarg('.' . $relativePath) . ' ' . escapeshellarg($remotePath) . ' ' . implode(' ', $excludeArgs);
         }
 
