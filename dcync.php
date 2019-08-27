@@ -1101,7 +1101,13 @@ class dcync
      */
     protected function walkTree($path, $timeFrom, array $exclude, array &$fileList, array &$modifiedList)
     {
-        foreach (scandir($path, SCANDIR_SORT_NONE) as $f)
+        $ff = scandir($path, SCANDIR_SORT_NONE);
+
+        if ($ff === false) {
+            throw new Exception;
+        }
+
+        foreach ($ff as $f)
         {
             if ($f === '.' || $f === '..')
             {
