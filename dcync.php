@@ -28,7 +28,7 @@ class dcync
             exit(1);
         }
 
-        if (getmyuid() === 0) {
+        if (posix_getuid() === 0) {
             echo 'root mode is disabled', PHP_EOL;
             exit(1);
         }
