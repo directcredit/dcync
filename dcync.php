@@ -5,12 +5,12 @@
  * dcync
  *
  * @author <masterklavi@gmail.com>
- * @version 0.2b
+ * @version 0.2.1
  */
 
 class dcync
 {
-    const VERSION = '0.2b';
+    const VERSION = '0.2.1';
 
     protected $homeDir = null;
 
@@ -823,6 +823,15 @@ class dcync
         foreach ($relativePaths as $relativePath) {
             $remotePath = $userhost . ':' . $localConfig->remote->path . $relativePath;
             $localPath = dirname('.' . $relativePath);
+
+            if (!is_dir($localPath)) {
+                if ($verbose) {
+                    echo "* creating local path " . $localPath, PHP_EOL;
+                }
+
+                mkdir($localPath, 0777, true);
+            }
+
             $commands[$relativePath] = escapeshellarg($remotePath) . ' ' . escapeshellarg($localPath) . ' ' . implode(' ', $excludeArgs);
         }
 
